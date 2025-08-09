@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Activités Pédagogiques</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1.5" fill="white" opacity="0.1"/><circle cx="60" cy="80" r="1" fill="white" opacity="0.1"/><circle cx="40" cy="60" r="1.2" fill="white" opacity="0.1"/></svg>');
+        }
+
+        .school-info {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 20px;
+        }
+
+        .school-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #fff, #f0f8ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .school-logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(79, 172, 254, 0.1), transparent);
+            animation: rotate 8s linear infinite;
+        }
+
+        .school-logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4facfe;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .school-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .school-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .return-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .return-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-content {
+            padding: 40px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 25px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f8f9ff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .dashboard-content {
+                padding: 25px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <!-- Bouton de retour à l'index -->
+            <a href="index.html" class="return-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                </svg>
+                Retour
+            </a>
+            
+            <div class="school-info">
+                <div class="school-logo">
+                    <div class="school-logo-text">LN</div>
+                </div>
+                <div class="school-name">Lycée Niamtougou</div>
+                <div class="school-subtitle">République Togolaise</div>
+            </div>
+            <h1>📚 Activités Pédagogiques</h1>
+            <p>Gestion des conseils, journées pédagogiques et évaluations</p>
+        </div>
+
+        <div class="dashboard-content">
+            <!-- Section Conseils d'Enseignement/Classe -->
+            <div class="section">
+                <h2 class="section-title">📝 Conseils d'Enseignement/Classe</h2>
+                <form id="councilForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="councilType">Type de conseil:</label>
+                            <select id="councilType" required>
+                                <option value="">Sélectionner un type</option>
+                                <option value="enseignement">Conseil d'Enseignement</option>
+                                <option value="classe">Conseil de Classe</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="councilDate">Date:</label>
+                            <input type="date" id="councilDate" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="startTime">Heure de début:</label>
+                            <input type="time" id="startTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime">Heure de fin:</label>
+                            <input type="time" id="endTime" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="president">Président du conseil:</label>
+                        <input type="text" id="president" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="secretary">Secrétaire de séance:</label>
+                        <input type="text" id="secretary" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="agenda">Ordre du jour:</label>
+                        <textarea id="agenda" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="keyPoints">Informations clés:</label>
+                        <textarea id="keyPoints" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="attendance">Fiche de présence (liste des participants séparés par des virgules):</label>
+                        <textarea id="attendance" required></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="reset" class="btn btn-danger">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Section Journées Pédagogiques -->
+            <div class="section">
+                <h2 class="section-title">📅 Journées Pédagogiques</h2>
+                <form id="pedagogicalDayForm">
+                    <div class="form-group">
+                        <label for="pedagogicalDates">Dates (séparées par des virgules si plusieurs):</label>
+                        <input type="text" id="pedagogicalDates" placeholder="JJ/MM/AAAA, JJ/MM/AAAA" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pedagogicalThemes">Thèmes développés:</label>
+                        <textarea id="pedagogicalThemes" required></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="reset" class="btn btn-danger">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Section Jours Fériés et Évaluations -->
+            <div class="section">
+                <h2 class="section-title">📆 Jours Fériés et Évaluations</h2>
+                <form id="evaluationForm">
+                    <div class="form-group">
+                        <label for="holidays">Jours fériés (dates séparées par des virgules):</label>
+                        <input type="text" id="holidays" placeholder="JJ/MM/AAAA, JJ/MM/AAAA">
+                    </div>
+
+                    <div id="evaluationContainer">
+                        <div class="evaluation-item">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="evalType1">Type d'évaluation:</label>
+                                    <select id="evalType1" class="eval-type">
+                                        <option value="devoir">Devoir</option>
+                                        <option value="composition">Composition</option>
+                                        <option value="examen-blanc">Examen Blanc</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="evalDate1">Date:</label>
+                                    <input type="date" id="evalDate1" class="eval-date">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="evalSubjects1">Matières concernées (séparées par des virgules):</label>
+                                <input type="text" id="evalSubjects1" class="eval-subjects">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="evalClasses1">Classes concernées (séparées par des virgules):</label>
+                                <input type="text" id="evalClasses1" class="eval-classes">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="addEvaluationField()">+ Ajouter une évaluation</button>
+                        <button type="reset" class="btn btn-danger">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Section Visualisation des Données -->
+            <div class="section">
+                <h2 class="section-title">📊 Visualisation des Données</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="viewType">Type de données:</label>
+                        <select id="viewType" onchange="updateView()">
+                            <option value="councils">Conseils</option>
+                            <option value="pedagogicalDays">Journées Pédagogiques</option>
+                            <option value="evaluations">Évaluations</option>
+                            <option value="holidays">Jours Fériés</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Date</th>
+                                <th>Détails</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody">
+                            <!-- Les données seront insérées ici -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données stockées
+        let councilsData = [];
+        let pedagogicalDaysData = [];
+        let evaluationsData = [];
+        let holidaysData = [];
+
+        // Compteur pour les champs d'évaluation
+        let evaluationCounter = 1;
+
+        // Ajouter un champ d'évaluation
+        function addEvaluationField() {
+            evaluationCounter++;
+            const container = document.getElementById('evaluationContainer');
+            const newEvaluation = document.createElement('div');
+            newEvaluation.className = 'evaluation-item';
+            newEvaluation.innerHTML = `
+                <hr style="margin: 20px 0;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="evalType${evaluationCounter}">Type d'évaluation:</label>
+                        <select id="evalType${evaluationCounter}" class="eval-type">
+                            <option value="devoir">Devoir</option>
+                            <option value="composition">Composition</option>
+                            <option value="examen-blanc">Examen Blanc</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="evalDate${evaluationCounter}">Date:</label>
+                        <input type="date" id="evalDate${evaluationCounter}" class="eval-date">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="evalSubjects${evaluationCounter}">Matières concernées (séparées par des virgules):</label>
+                    <input type="text" id="evalSubjects${evaluationCounter}" class="eval-subjects">
+                </div>
+
+                <div class="form-group">
+                    <label for="evalClasses${evaluationCounter}">Classes concernées (séparées par des virgules):</label>
+                    <input type="text" id="evalClasses${evaluationCounter}" class="eval-classes">
+                </div>
+                <button type="button" class="btn btn-danger" onclick="removeEvaluationField(this)">Supprimer</button>
+            `;
+            container.appendChild(newEvaluation);
+        }
+
+        // Supprimer un champ d'évaluation
+        function removeEvaluationField(button) {
+            if (document.querySelectorAll('.evaluation-item').length > 1) {
+                button.parentElement.remove();
+            } else {
+                alert("Vous devez avoir au moins un champ d'évaluation.");
+            }
+        }
+
+        // Enregistrer un conseil
+        document.getElementById('councilForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newCouncil = {
+                id: Date.now(),
+                type: document.getElementById('councilType').value,
+                date: document.getElementById('councilDate').value,
+                startTime: document.getElementById('startTime').value,
+                endTime: document.getElementById('endTime').value,
+                president: document.getElementById('president').value,
+                secretary: document.getElementById('secretary').value,
+                agenda: document.getElementById('agenda').value,
+                keyPoints: document.getElementById('keyPoints').value,
+                attendance: document.getElementById('attendance').value.split(',').map(item => item.trim())
+            };
+            
+            councilsData.push(newCouncil);
+            alert('Conseil enregistré avec succès!');
+            this.reset();
+            updateView();
+        });
+
+        // Enregistrer une journée pédagogique
+        document.getElementById('pedagogicalDayForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newPedagogicalDay = {
+                id: Date.now(),
+                dates: document.getElementById('pedagogicalDates').value.split(',').map(item => item.trim()),
+                themes: document.getElementById('pedagogicalThemes').value
+            };
+            
+            pedagogicalDaysData.push(newPedagogicalDay);
+            alert('Journée pédagogique enregistrée avec succès!');
+            this.reset();
+            updateView();
+        });
+
+        // Enregistrer des évaluations et jours fériés
+        document.getElementById('evaluationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Enregistrer les jours fériés
+            const holidaysInput = document.getElementById('holidays').value;
+            if (holidaysInput) {
+                const newHolidays = holidaysInput.split(',').map(item => item.trim());
+                holidaysData = [...holidaysData, ...newHolidays.map(date => ({ id: Date.now() + Math.random(), date }))];
+            }
+            
+            // Enregistrer les évaluations
+            const evaluationItems = document.querySelectorAll('.evaluation-item');
+            evaluationItems.forEach(item => {
+                const type = item.querySelector('.eval-type').value;
+                const date = item.querySelector('.eval-date').value;
+                const subjects = item.querySelector('.eval-subjects').value.split(',').map(item => item.trim());
+                const classes = item.querySelector('.eval-classes').value.split(',').map(item => item.trim());
+                
+                if (date && subjects.length > 0 && classes.length > 0) {
+                    evaluationsData.push({
+                        id: Date.now() + Math.random(),
+                        type,
+                        date,
+                        subjects,
+                        classes
+                    });
+                }
+            });
+            
+            alert('Données enregistrées avec succès!');
+            this.reset();
+            // Réinitialiser le conteneur d'évaluation
+            document.getElementById('evaluationContainer').innerHTML = `
+                <div class="evaluation-item">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="evalType1">Type d'évaluation:</label>
+                            <select id="evalType1" class="eval-type">
+                                <option value="devoir">Devoir</option>
+                                <option value="composition">Composition</option>
+                                <option value="examen-blanc">Examen Blanc</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="evalDate1">Date:</label>
+                            <input type="date" id="evalDate1" class="eval-date">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="evalSubjects1">Matières concernées (séparées par des virgules):</label>
+                        <input type="text" id="evalSubjects1" class="eval-subjects">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="evalClasses1">Classes concernées (séparées par des virgules):</label>
+                        <input type="text" id="evalClasses1" class="eval-classes">
+                    </div>
+                </div>
+            `;
+            evaluationCounter = 1;
+            updateView();
+        });
+
+        // Mettre à jour la vue des données
+        function updateView() {
+            const viewType = document.getElementById('viewType').value;
+            const tbody = document.getElementById('dataTableBody');
+            tbody.innerHTML = '';
+            
+            switch(viewType) {
+                case 'councils':
+                    councilsData.forEach(council => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${council.type === 'enseignement' ? 'Conseil d\'Enseignement' : 'Conseil de Classe'}</td>
+                            <td>${formatDate(council.date)} ${council.startTime} - ${council.endTime}</td>
+                            <td>
+                                <strong>Président:</strong> ${council.president}<br>
+                                <strong>Secrétaire:</strong> ${council.secretary}<br>
+                                <strong>Participants:</strong> ${council.attendance.join(', ')}
+                            </td>
+                            <td>
+                                <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;" 
+                                        onclick="showDetails('council', ${council.id})">
+                                    Détails
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                    break;
+                    
+                case 'pedagogicalDays':
+                    pedagogicalDaysData.forEach(day => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>Journée Pédagogique</td>
+                            <td>${day.dates.map(d => formatDate(d)).join(', ')}</td>
+                            <td>${day.themes}</td>
+                            <td>
+                                <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;" 
+                                        onclick="showDetails('pedagogicalDay', ${day.id})">
+                                    Détails
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                    break;
+                    
+                case 'evaluations':
+                    evaluationsData.forEach(eval => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${getEvaluationTypeName(eval.type)}</td>
+                            <td>${formatDate(eval.date)}</td>
+                            <td>
+                                <strong>Matières:</strong> ${eval.subjects.join(', ')}<br>
+                                <strong>Classes:</strong> ${eval.classes.join(', ')}
+                            </td>
+                            <td>
+                                <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;" 
+                                        onclick="showDetails('evaluation', ${eval.id})">
+                                    Détails
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                    break;
+                    
+                case 'holidays':
+                    holidaysData.forEach(holiday => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>Jour Férié</td>
+                            <td>${formatDate(holiday.date)}</td>
+                            <td>-</td>
+                            <td>
+                                <button class="btn btn-danger" style="padding: 5px 10px; font-size: 0.8rem;" 
+                                        onclick="deleteHoliday(${holiday.id})">
+                                    Supprimer
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                    break;
+            }
+            
+            if (tbody.innerHTML === '') {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Aucune donnée disponible</td></tr>';
+            }
+        }
+
+        // Afficher les détails d'un élément
+        function showDetails(type, id) {
+            let item;
+            let title = '';
+            let content = '';
+            
+            switch(type) {
+                case 'council':
+                    item = councilsData.find(c => c.id === id);
+                    title = `${item.type === 'enseignement' ? 'Conseil d\'Enseignement' : 'Conseil de Classe'} du ${formatDate(item.date)}`;
+                    content = `
+                        <p><strong>Date:</strong> ${formatDate(item.date)}</p>
+                        <p><strong>Heure:</strong> ${item.startTime} - ${item.endTime}</p>
+                        <p><strong>Président:</strong> ${item.president}</p>
+                        <p><strong>Secrétaire:</strong> ${item.secretary}</p>
+                        <h3>Ordre du jour</h3>
+                        <p>${item.agenda.replace(/\n/g, '<br>')}</p>
+                        <h3>Informations clés</h3>
+                        <p>${item.keyPoints.replace(/\n/g, '<br>')}</p>
+                        <h3>Liste de présence</h3>
+                        <ul>
+                            ${item.attendance.map(p => `<li>${p}</li>`).join('')}
+                        </ul>
+                    `;
+                    break;
+                    
+                case 'pedagogicalDay':
+                    item = pedagogicalDaysData.find(d => d.id === id);
+                    title = `Journée Pédagogique - ${item.dates.map(d => formatDate(d)).join(', ')}`;
+                    content = `
+                        <p><strong>Dates:</strong> ${item.dates.map(d => formatDate(d)).join(', ')}</p>
+                        <h3>Thèmes développés</h3>
+                        <p>${item.themes.replace(/\n/g, '<br>')}</p>
+                    `;
+                    break;
+                    
+                case 'evaluation':
+                    item = evaluationsData.find(e => e.id === id);
+                    title = `${getEvaluationTypeName(item.type)} du ${formatDate(item.date)}`;
+                    content = `
+                        <p><strong>Date:</strong> ${formatDate(item.date)}</p>
+                        <p><strong>Type:</strong> ${getEvaluationTypeName(item.type)}</p>
+                        <h3>Matières concernées</h3>
+                        <ul>
+                            ${item.subjects.map(s => `<li>${s}</li>`).join('')}
+                        </ul>
+                        <h3>Classes concernées</h3>
+                        <ul>
+                            ${item.classes.map(c => `<li>${c}</li>`).join('')}
+                        </ul>
+                    `;
+                    break;
+            }
+            
+            alert(`${title}\n\n${content.replace(/<[^>]*>/g, '')}`);
+        }
+
+        // Supprimer un jour férié
+        function deleteHoliday(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce jour férié ?')) {
+                holidaysData = holidaysData.filter(h => h.id !== id);
+                updateView();
+            }
+        }
+
+        // Obtenir le nom du type d'évaluation
+        function getEvaluationTypeName(type) {
+            const names = {
+                'devoir': 'Devoir',
+                'composition': 'Composition',
+                'examen-blanc': 'Examen Blanc'
+            };
+            return names[type] || type;
+        }
+
+        // Formater une date
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('fr-FR', options);
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            updateView();
+        });
+    </script>
+</body>
+</html>

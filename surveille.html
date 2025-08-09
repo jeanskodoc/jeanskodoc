@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=3.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#4a6baf">
+    <title>Espace Surveillants - Lycée Niamtougou</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4a6baf 0%, #2c3e50 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1.5" fill="white" opacity="0.1"/><circle cx="60" cy="80" r="1" fill="white" opacity="0.1"/><circle cx="40" cy="60" r="1.2" fill="white" opacity="0.1"/></svg>');
+        }
+
+        .school-info {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 20px;
+        }
+
+        .school-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #fff, #f0f8ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .school-logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(58, 123, 213, 0.1), transparent);
+            animation: rotate 8s linear infinite;
+        }
+
+        .school-logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #3a7bd5;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .school-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .school-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .auth-section {
+            display: block;
+        }
+
+        .auth-section.hidden {
+            display: none;
+        }
+
+        .login-form, .register-form {
+            padding: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #3a7bd5;
+            box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #4a6baf, #2c3e50);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(74, 107, 175, 0.3);
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(74, 107, 175, 0.4);
+        }
+
+        .register-btn {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(67, 233, 123, 0.3);
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .success-message {
+            background: #43e97b;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        .sidebar {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e1e8ed;
+        }
+
+        .filter-group {
+            margin-bottom: 25px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 0.95rem;
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #3a7bd5;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(58, 123, 213, 0.3);
+        }
+
+        .action-btn.secondary {
+            background: linear-gradient(135deg, #6c757d, #adb5bd);
+        }
+
+        .action-btn.tertiary {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .records-table th {
+            background: #3a7bd5;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .records-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .records-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .records-table tr:hover {
+            background: #f8f9ff;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-absent {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .status-late {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .status-evaluation {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .status-sick {
+            background: #6610f2;
+            color: white;
+        }
+
+        .status-contact {
+            background: #28a745;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #3a7bd5;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-full-row {
+            grid-column: span 2;
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 107, 107, 0.9);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(220, 53, 69, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .report-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .report-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e1e8ed;
+        }
+
+        .report-content {
+            margin-top: 15px;
+        }
+
+        .report-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f9ff;
+            border-radius: 8px;
+        }
+
+        /* Styles pour l'impression */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #print-content, #print-content * {
+                visibility: visible;
+            }
+            #print-content {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 20px;
+                background: white;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .action-btn {
+                display: none !important;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                margin: 0;
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 25px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .form-full-row {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .school-name {
+                font-size: 1.4rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .records-table th, 
+            .records-table td {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="school-info">
+                <div class="school-logo">
+                    <div class="school-logo-text">LN</div>
+                </div>
+                <div class="school-name">Lycée Niamtougou</div>
+                <div class="school-subtitle">Espace Surveillants</div>
+            </div>
+            <h1 id="main-title">📋 Gestion des Absences et Retards</h1>
+            <p id="main-subtitle">Suivi des élèves et contact avec les parents</p>
+        </div>
+
+        <!-- Section de connexion -->
+        <div id="login-section" class="auth-section">
+            <div class="login-form">
+                <div id="error-message" class="error-message" style="display: none;"></div>
+                <div id="success-message" class="success-message" style="display: none;"></div>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">👤 Identifiant :</label>
+                        <input type="text" id="username" name="username" required placeholder="Votre identifiant">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">🔑 Mot de passe :</label>
+                        <input type="password" id="password" name="password" required placeholder="Votre mot de passe">
+                    </div>
+                    
+                    <button type="submit" class="login-btn">
+                        🚪 Se connecter
+                    </button>
+                </form>
+                
+                <button type="button" class="register-btn" onclick="showRegisterForm()">
+                    📝 Créer un compte surveillant
+                </button>
+            </div>
+        </div>
+
+        <!-- Section d'inscription -->
+        <div id="register-section" class="auth-section hidden">
+            <div class="register-form">
+                <div id="register-error" class="error-message" style="display: none;"></div>
+                <div id="register-success" class="success-message" style="display: none;"></div>
+                
+                <h2>📝 Créer un compte surveillant</h2>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="supervisor-name">👤 Nom complet :</label>
+                        <input type="text" id="supervisor-name" name="supervisor-name" required placeholder="Votre nom complet">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="supervisor-email">📧 Email :</label>
+                        <input type="email" id="supervisor-email" name="supervisor-email" required placeholder="Votre adresse email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="supervisor-phone">📞 Téléphone :</label>
+                        <input type="tel" id="supervisor-phone" name="supervisor-phone" required placeholder="Votre numéro de téléphone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-username">👤 Identifiant :</label>
+                        <input type="text" id="register-username" name="register-username" required placeholder="Choisissez un identifiant">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-password">🔑 Mot de passe :</label>
+                        <input type="password" id="register-password" name="register-password" required placeholder="Créez un mot de passe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password">🔏 Confirmer le mot de passe :</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required placeholder="Confirmez votre mot de passe">
+                    </div>
+                    
+                    <button type="submit" class="login-btn">
+                        ✅ S'inscrire
+                    </button>
+                </form>
+                
+                <button type="button" class="back-btn" onclick="showLoginSection()">
+                    ← Retour à la connexion
+                </button>
+            </div>
+        </div>
+
+        <!-- Section principale après connexion -->
+        <div id="main-content" class="auth-section hidden">
+            <button class="logout-btn" onclick="logout()">🚪 Déconnexion</button>
+            
+            <div class="content">
+                <div class="dashboard">
+                    <!-- Sidebar avec filtres -->
+                    <div class="sidebar">
+                        <h3 class="sidebar-title">🔍 Filtres</h3>
+                        
+                        <div class="filter-group">
+                            <label for="filter-class">Classe :</label>
+                            <select id="filter-class">
+                                <option value="">Toutes les classes</option>
+                                <option value="6eme">6ème</option>
+                                <option value="5eme">5ème</option>
+                                <option value="4eme">4ème</option>
+                                <option value="3eme">3ème</option>
+                                <option value="seconde-a">Seconde A</option>
+                                <option value="seconde-c">Seconde C</option>
+                                <option value="premiere-a1">Première A1</option>
+                                <option value="premiere-a2">Première A2</option>
+                                <option value="premiere-c">Première C</option>
+                                <option value="premiere-d">Première D</option>
+                                <option value="terminale-a1">Terminale A1</option>
+                                <option value="terminale-a2">Terminale A2</option>
+                                <option value="terminale-c">Terminale C</option>
+                                <option value="terminale-d">Terminale D</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="filter-student">Élève :</label>
+                            <select id="filter-student">
+                                <option value="">Tous les élèves</option>
+                                <!-- Options seront ajoutées dynamiquement -->
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="filter-type">Type :</label>
+                            <select id="filter-type">
+                                <option value="">Tous les types</option>
+                                <option value="absence">Absence</option>
+                                <option value="retard">Retard</option>
+                                <option value="evaluation">Évaluation manquée</option>
+                                <option value="maladie">Maladie</option>
+                                <option value="contact">Contact parent</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="filter-date">Date :</label>
+                            <input type="date" id="filter-date">
+                        </div>
+                        
+                        <button class="action-btn" onclick="applyFilters()">
+                            🔄 Appliquer les filtres
+                        </button>
+                        
+                        <div class="stats-cards">
+                            <div class="stat-card">
+                                <div class="stat-value" id="stat-absences">0</div>
+                                <div class="stat-label">Absences</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="stat-retards">0</div>
+                                <div class="stat-label">Retards</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="stat-evaluations">0</div>
+                                <div class="stat-label">Évals manquées</div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons" style="margin-top: 20px;">
+                            <button class="action-btn tertiary" onclick="generateMonthlyReport()">
+                                📊 Générer bilan mensuel
+                            </button>
+                            <button class="action-btn secondary" onclick="saveData()">
+                                💾 Sauvegarder les données
+                            </button>
+                            <button class="action-btn" onclick="printData()">
+                                🖨️ Imprimer les données
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Contenu principal -->
+                    <div class="main-content">
+                        <div class="action-buttons">
+                            <button class="action-btn" onclick="openAddModal('absence')">
+                                ➕ Ajouter une absence
+                            </button>
+                            <button class="action-btn" onclick="openAddModal('retard')">
+                                ⏱️ Ajouter un retard
+                            </button>
+                            <button class="action-btn" onclick="openAddModal('evaluation')">
+                                📝 Évaluation manquée
+                            </button>
+                            <button class="action-btn secondary" onclick="openAddModal('maladie')">
+                                🏥 Déclarer maladie
+                            </button>
+                            <button class="action-btn secondary" onclick="openAddModal('contact')">
+                                📞 Contact parent
+                            </button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="records-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Élève</th>
+                                        <th>Classe</th>
+                                        <th>Type</th>
+                                        <th>Motif</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="records-list">
+                                    <!-- Les enregistrements seront ajoutés ici dynamiquement -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Section pour le rapport mensuel -->
+                        <div id="monthly-report" class="report-section" style="display: none;">
+                            <h3 class="report-title">📅 Bilan Mensuel</h3>
+                            <div class="action-buttons">
+                                <button class="action-btn tertiary" onclick="printReport()">
+                                    🖨️ Imprimer ce rapport
+                                </button>
+                                <button class="action-btn secondary" onclick="closeReport()">
+                                    ❌ Fermer
+                                </button>
+                            </div>
+                            <div id="report-content" class="report-content">
+                                <!-- Le contenu du rapport sera généré ici -->
+                            </div>
+                        </div>
+
+                        <!-- Contenu pour l'impression -->
+                        <div id="print-content" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour ajouter/modifier un enregistrement -->
+    <div id="record-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h3 class="modal-title" id="modal-title">Ajouter un enregistrement</h3>
+            
+            <form id="record-form">
+                <input type="hidden" id="record-id">
+                <input type="hidden" id="record-type">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modal-date">Date :</label>
+                        <input type="date" id="modal-date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="modal-class">Classe :</label>
+                        <select id="modal-class" required>
+                            <option value="">Sélectionner une classe</option>
+                            <option value="6eme">6ème</option>
+                            <option value="5eme">5ème</option>
+                            <option value="4eme">4ème</option>
+                            <option value="3eme">3ème</option>
+                            <option value="seconde-a">Seconde A</option>
+                            <option value="seconde-c">Seconde C</option>
+                            <option value="premiere-a1">Première A1</option>
+                            <option value="premiere-a2">Première A2</option>
+                            <option value="premiere-c">Première C</option>
+                            <option value="premiere-d">Première D</option>
+                            <option value="terminale-a1">Terminale A1</option>
+                            <option value="terminale-a2">Terminale A2</option>
+                            <option value="terminale-c">Terminale C</option>
+                            <option value="terminale-d">Terminale D</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modal-student">Élève :</label>
+                        <select id="modal-student" required>
+                            <option value="">Sélectionner un élève</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="modal-time-container" style="display: none;">
+                        <label for="modal-time">Heure de retard :</label>
+                        <input type="time" id="modal-time">
+                    </div>
+                </div>
+                
+                <div class="form-group form-full-row">
+                    <label for="modal-reason" id="modal-reason-label">Motif :</label>
+                    <input type="text" id="modal-reason" placeholder="Décrivez la raison..." required>
+                </div>
+                
+                <div class="form-group form-full-row" id="modal-contact-container" style="display: none;">
+                    <label for="modal-contact-details">Détails du contact :</label>
+                    <textarea id="modal-contact-details" rows="3" placeholder="Notes sur le contact avec le parent..."></textarea>
+                </div>
+                
+                <div class="form-group form-full-row" id="modal-justified-container" style="display: none;">
+                    <label>
+                        <input type="checkbox" id="modal-justified"> Justifié
+                    </label>
+                </div>
+                
+                <button type="submit" class="action-btn">
+                    💾 Enregistrer
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Données des élèves par classe
+        const studentsByClass = {
+            "6eme": ["Jean Dupont", "Marie Kouassi", "Koffi Mensah"],
+            "5eme": ["Alice Johnson", "Bob Smith", "Charlie Brown"],
+            "4eme": ["David Wilson", "Eva Green", "Frank Ocean"],
+            "3eme": ["Grace Kelly", "Henry Ford", "Irene Adler"],
+            "seconde-a": ["Jack Sparrow", "Karen Smith", "Liam Neeson"],
+            "seconde-c": ["Mona Lisa", "Nicolas Cage", "Olivia Pope"],
+            "premiere-a1": ["Paul Walker", "Queen Latifah", "Robert Downey"],
+            "premiere-a2": ["Steve Jobs", "Taylor Swift", "Uma Thurman"],
+            "premiere-c": ["Vin Diesel", "Will Smith", "Xavier Dupont"],
+            "premiere-d": ["Yves Saint", "Zoe Saldana", "Adam Levine"],
+            "terminale-a1": ["Bruce Wayne", "Clark Kent", "Diana Prince"],
+            "terminale-a2": ["Edward Cullen", "Frodo Baggins", "Gandalf Grey"],
+            "terminale-c": ["Harry Potter", "Iron Man", "James Bond"],
+            "terminale-d": ["Katniss Everdeen", "Luke Skywalker", "Mario Bros"]
+        };
+
+        // Données des contacts parents
+        const parentContacts = {
+            "Jean Dupont": { name: "Paul Dupont", phone: "+22890123456", email: "paul.dupont@example.com" },
+            "Marie Kouassi": { name: "Awa Kouassi", phone: "+22890234567", email: "awa.kouassi@example.com" },
+            "Koffi Mensah": { name: "Kodjo Mensah", phone: "+22890345678", email: "kodjo.mensah@example.com" }
+        };
+
+        // Base de données des surveillants (simulée)
+        let supervisors = [
+            { id: 1, name: "M. Togbe", email: "togbe@lycee.tg", phone: "+22890123456", username: "surveillant1", password: "surv123" },
+            { id: 2, name: "Mme Adjo", email: "adjo@lycee.tg", phone: "+22890234567", username: "surveillant2", password: "surv456" }
+        ];
+
+        // Base de données des enregistrements
+        let records = [
+            {
+                id: 1,
+                type: "absence",
+                date: "2024-11-15",
+                student: "Jean Dupont",
+                class: "6eme",
+                reason: "Absence non justifiée",
+                justified: false
+            },
+            {
+                id: 2,
+                type: "retard",
+                date: "2024-11-14",
+                student: "Marie Kouassi",
+                class: "6eme",
+                reason: "Problème de transport",
+                time: "08:15",
+                justified: true
+            },
+            {
+                id: 3,
+                type: "evaluation",
+                date: "2024-11-13",
+                student: "Koffi Mensah",
+                class: "6eme",
+                reason: "Contrôle de mathématiques",
+                justified: false
+            },
+            {
+                id: 4,
+                type: "maladie",
+                date: "2024-11-12",
+                student: "Alice Johnson",
+                class: "5eme",
+                reason: "Fièvre",
+                justified: true
+            },
+            {
+                id: 5,
+                type: "contact",
+                date: "2024-11-11",
+                student: "Bob Smith",
+                class: "5eme",
+                reason: "Problème de comportement",
+                contactDetails: "Parent informé, promet d'intervenir",
+                justified: true
+            }
+        ];
+
+        // Fonction pour vérifier les identifiants
+        function checkCredentials(username, password) {
+            return supervisors.find(supervisor => 
+                supervisor.username === username && 
+                supervisor.password === password
+            );
+        }
+
+        // Fonction pour afficher la section principale après connexion
+        function showMainContent(supervisor) {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('register-section').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            
+            // Mettre à jour le titre
+            document.getElementById('main-title').textContent = `📋 Surveillant - ${supervisor.name}`;
+            document.getElementById('main-subtitle').textContent = `Gestion des absences et retards`;
+            
+            // Charger les données initiales
+            loadStudentsDropdown();
+            displayRecords();
+            updateStats();
+        }
+
+        // Fonction pour charger les élèves dans les dropdowns
+        function loadStudentsDropdown() {
+            const filterStudent = document.getElementById('filter-student');
+            const modalStudent = document.getElementById('modal-student');
+            
+            // Vider les dropdowns
+            filterStudent.innerHTML = '<option value="">Tous les élèves</option>';
+            modalStudent.innerHTML = '<option value="">Sélectionner un élève</option>';
+            
+            // Ajouter les élèves par classe
+            for (const [classId, students] of Object.entries(studentsByClass)) {
+                students.forEach(student => {
+                    const option1 = document.createElement('option');
+                    option1.value = student;
+                    option1.textContent = student;
+                    filterStudent.appendChild(option1);
+                    
+                    const option2 = document.createElement('option');
+                    option2.value = student;
+                    option2.textContent = student;
+                    modalStudent.appendChild(option2);
+                });
+            }
+        }
+
+        // Fonction pour afficher les enregistrements
+        function displayRecords(filteredRecords = null) {
+            const recordsToDisplay = filteredRecords || records;
+            const recordsList = document.getElementById('records-list');
+            recordsList.innerHTML = '';
+            
+            if (recordsToDisplay.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="6" style="text-align: center;">Aucun enregistrement trouvé</td>`;
+                recordsList.appendChild(row);
+                return;
+            }
+            
+            recordsToDisplay.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            recordsToDisplay.forEach(record => {
+                const row = document.createElement('tr');
+                
+                // Formater la date
+                const formattedDate = formatDate(record.date);
+                
+                // Déterminer le badge selon le type
+                let badgeClass = '';
+                let badgeText = '';
+                
+                switch(record.type) {
+                    case 'absence':
+                        badgeClass = 'status-absent';
+                        badgeText = 'Absence';
+                        break;
+                    case 'retard':
+                        badgeClass = 'status-late';
+                        badgeText = 'Retard';
+                        if (record.time) badgeText += ` (${record.time})`;
+                        break;
+                    case 'evaluation':
+                        badgeClass = 'status-evaluation';
+                        badgeText = 'Évaluation';
+                        break;
+                    case 'maladie':
+                        badgeClass = 'status-sick';
+                        badgeText = 'Maladie';
+                        break;
+                    case 'contact':
+                        badgeClass = 'status-contact';
+                        badgeText = 'Contact';
+                        break;
+                }
+                
+                row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${record.student}</td>
+                    <td>${record.class}</td>
+                    <td><span class="status-badge ${badgeClass}">${badgeText}</span></td>
+                    <td>${record.reason}</td>
+                    <td>
+                        <button onclick="editRecord(${record.id})" style="background: none; border: none; cursor: pointer; color: #3a7bd5;">✏️</button>
+                        <button onclick="deleteRecord(${record.id})" style="background: none; border: none; cursor: pointer; color: #ff6b6b;">🗑️</button>
+                        ${record.type === 'contact' ? '' : `<button onclick="contactParent('${record.student}')" style="background: none; border: none; cursor: pointer; color: #28a745;">📞</button>`}
+                    </td>
+                `;
+                
+                recordsList.appendChild(row);
+            });
+        }
+
+        // Fonction pour mettre à jour les statistiques
+        function updateStats() {
+            const absences = records.filter(r => r.type === 'absence').length;
+            const retards = records.filter(r => r.type === 'retard').length;
+            const evaluations = records.filter(r => r.type === 'evaluation').length;
+            
+            document.getElementById('stat-absences').textContent = absences;
+            document.getElementById('stat-retards').textContent = retards;
+            document.getElementById('stat-evaluations').textContent = evaluations;
+        }
+
+        // Fonction pour formater la date
+        function formatDate(dateString) {
+            const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('fr-FR', options);
+        }
+
+        // Fonction pour appliquer les filtres
+        function applyFilters() {
+            const classFilter = document.getElementById('filter-class').value;
+            const studentFilter = document.getElementById('filter-student').value;
+            const typeFilter = document.getElementById('filter-type').value;
+            const dateFilter = document.getElementById('filter-date').value;
+            
+            let filteredRecords = [...records];
+            
+            if (classFilter) {
+                filteredRecords = filteredRecords.filter(r => r.class === classFilter);
+            }
+            
+            if (studentFilter) {
+                filteredRecords = filteredRecords.filter(r => r.student === studentFilter);
+            }
+            
+            if (typeFilter) {
+                filteredRecords = filteredRecords.filter(r => r.type === typeFilter);
+            }
+            
+            if (dateFilter) {
+                filteredRecords = filteredRecords.filter(r => r.date === dateFilter);
+            }
+            
+            displayRecords(filteredRecords);
+        }
+
+        // Fonction pour ouvrir le modal d'ajout
+        function openAddModal(type) {
+            const modal = document.getElementById('record-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const recordType = document.getElementById('record-type');
+            const timeContainer = document.getElementById('modal-time-container');
+            const contactContainer = document.getElementById('modal-contact-container');
+            const justifiedContainer = document.getElementById('modal-justified-container');
+            const reasonLabel = document.getElementById('modal-reason-label');
+            
+            // Réinitialiser le formulaire
+            document.getElementById('record-form').reset();
+            document.getElementById('record-id').value = '';
+            recordType.value = type;
+            
+            // Configurer le modal selon le type
+            switch(type) {
+                case 'absence':
+                    modalTitle.textContent = 'Ajouter une absence';
+                    reasonLabel.textContent = 'Motif de l\'absence :';
+                    timeContainer.style.display = 'none';
+                    contactContainer.style.display = 'none';
+                    justifiedContainer.style.display = 'block';
+                    break;
+                case 'retard':
+                    modalTitle.textContent = 'Ajouter un retard';
+                    reasonLabel.textContent = 'Motif du retard :';
+                    timeContainer.style.display = 'block';
+                    contactContainer.style.display = 'none';
+                    justifiedContainer.style.display = 'block';
+                    break;
+                case 'evaluation':
+                    modalTitle.textContent = 'Ajouter une évaluation manquée';
+                    reasonLabel.textContent = 'Matière/Type d\'évaluation :';
+                    timeContainer.style.display = 'none';
+                    contactContainer.style.display = 'none';
+                    justifiedContainer.style.display = 'block';
+                    break;
+                case 'maladie':
+                    modalTitle.textContent = 'Déclarer une maladie';
+                    reasonLabel.textContent = 'Description des symptômes :';
+                    timeContainer.style.display = 'none';
+                    contactContainer.style.display = 'none';
+                    justifiedContainer.style.display = 'block';
+                    break;
+                case 'contact':
+                    modalTitle.textContent = 'Enregistrer un contact avec un parent';
+                    reasonLabel.textContent = 'Raison du contact :';
+                    timeContainer.style.display = 'none';
+                    contactContainer.style.display = 'block';
+                    justifiedContainer.style.display = 'none';
+                    break;
+            }
+            
+            // Définir la date d'aujourd'hui par défaut
+            document.getElementById('modal-date').valueAsDate = new Date();
+            
+            // Afficher le modal
+            modal.style.display = 'flex';
+        }
+
+        // Fonction pour fermer le modal
+        function closeModal() {
+            document.getElementById('record-modal').style.display = 'none';
+        }
+
+        // Fonction pour éditer un enregistrement
+        function editRecord(id) {
+            const record = records.find(r => r.id === id);
+            if (!record) return;
+            
+            const modal = document.getElementById('record-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const recordType = document.getElementById('record-type');
+            const timeContainer = document.getElementById('modal-time-container');
+            const contactContainer = document.getElementById('modal-contact-container');
+            const justifiedContainer = document.getElementById('modal-justified-container');
+            const reasonLabel = document.getElementById('modal-reason-label');
+            
+            // Remplir le formulaire
+            document.getElementById('record-id').value = record.id;
+            recordType.value = record.type;
+            document.getElementById('modal-date').value = record.date;
+            document.getElementById('modal-class').value = record.class;
+            document.getElementById('modal-student').value = record.student;
+            document.getElementById('modal-reason').value = record.reason;
+            
+            // Configurer selon le type
+            switch(record.type) {
+                case 'absence':
+                    modalTitle.textContent = 'Modifier une absence';
+                    reasonLabel.textContent = 'Motif de l\'absence :';
+                    timeContainer.style.display = 'none';
+                    contactContainer.style.display = 'none';
+                    justifiedContainer.style.display = 'block';
+                    document.getElementById('modal-justified').checked = record.justified || false;
+                    break;
+                case 'retard':
+                    modalTitle.textContent = 'Modifier un retard';
+                    reasonLabel.textContent = 'Motif du retard :';
+                    timeContainer.style.display = 'block';
+                    contactContainer.style.display = 'none';
+                    justifiedContainer.style.display = 'block';
+                    document.getElementById('modal-time').value = record.time || '';
+                    document.getElementById('modal-justified').checked = record.justified || false;
+                    break;
+                case 'evaluation':
+                    modalTitle.textContent = 'Modifier une évaluation manquée';
+                    reasonLabel.textContent = 'Matière/Type d\'évaluation :';
+                    timeContainer.style.display = 'none';
+                    contactContainer.style.display = 'none';
+                    justifiedContainer.style.display = 'block';
+                    document.getElementById('modal-justified').checked = record.justified || false;
+                    break;
+                case 'maladie':
+                    modalTitle.textContent = 'Modifier une déclaration de maladie';
+                    reasonLabel.textContent = 'Description des symptômes :';
+                    timeContainer.style.display = 'none';
+                    contactContainer.style.display = 'none';
+                    justifiedContainer.style.display = 'block';
+                    document.getElementById('modal-justified').checked = record.justified || false;
+                    break;
+                case 'contact':
+                    modalTitle.textContent = 'Modifier un contact avec un parent';
+                    reasonLabel.textContent = 'Raison du contact :';
+                    timeContainer.style.display = 'none';
+                    contactContainer.style.display = 'block';
+                    justifiedContainer.style.display = 'none';
+                    document.getElementById('modal-contact-details').value = record.contactDetails || '';
+                    break;
+            }
+            
+            // Afficher le modal
+            modal.style.display = 'flex';
+        }
+
+        // Fonction pour supprimer un enregistrement
+        function deleteRecord(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) {
+                records = records.filter(r => r.id !== id);
+                displayRecords();
+                updateStats();
+            }
+        }
+
+        // Fonction pour contacter un parent
+        function contactParent(studentName) {
+            const parent = parentContacts[studentName];
+            
+            if (parent) {
+                alert(`Contact parent pour ${studentName}:\nNom: ${parent.name}\nTéléphone: ${parent.phone}\nEmail: ${parent.email}`);
+            } else {
+                alert(`Aucun contact parent trouvé pour ${studentName}`);
+            }
+        }
+
+        // Fonctions pour basculer entre les sections
+        function showLoginSection() {
+            document.getElementById('login-section').classList.remove('hidden');
+            document.getElementById('register-section').classList.add('hidden');
+            document.getElementById('main-content').classList.add('hidden');
+        }
+
+        function showRegisterForm() {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('register-section').classList.remove('hidden');
+            document.getElementById('main-content').classList.add('hidden');
+        }
+
+        function logout() {
+            showLoginSection();
+            document.getElementById('loginForm').reset();
+        }
+
+        // Fonction pour sauvegarder les données
+        function saveData() {
+            // Dans une vraie application, ici on enverrait les données au serveur
+            // Pour cette démo, on simule juste une sauvegarde
+            localStorage.setItem('surveillant_records', JSON.stringify(records));
+            localStorage.setItem('surveillant_supervisors', JSON.stringify(supervisors));
+            
+            alert('Données sauvegardées avec succès !');
+        }
+
+        // Fonction pour imprimer les données
+        function printData() {
+            const printContent = document.getElementById('print-content');
+            printContent.innerHTML = '';
+            
+            // Créer le contenu à imprimer
+            const title = document.createElement('h2');
+            title.textContent = 'Relevé des absences et retards - Lycée Niamtougou';
+            printContent.appendChild(title);
+            
+            const date = document.createElement('p');
+            date.textContent = 'Date : ' + new Date().toLocaleDateString('fr-FR');
+            printContent.appendChild(date);
+            
+            const table = document.createElement('table');
+            table.style.width = '100%';
+            table.style.borderCollapse = 'collapse';
+            table.style.marginTop = '20px';
+            
+            // En-tête du tableau
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            ['Date', 'Élève', 'Classe', 'Type', 'Motif'].forEach(text => {
+                const th = document.createElement('th');
+                th.textContent = text;
+                th.style.border = '1px solid #ddd';
+                th.style.padding = '8px';
+                th.style.backgroundColor = '#3a7bd5';
+                th.style.color = 'white';
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+            
+            // Corps du tableau
+            const tbody = document.createElement('tbody');
+            records.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(record => {
+                const row = document.createElement('tr');
+                
+                [formatDate(record.date), record.student, record.class, 
+                 getTypeLabel(record.type), record.reason].forEach(text => {
+                    const td = document.createElement('td');
+                    td.textContent = text;
+                    td.style.border = '1px solid #ddd';
+                    td.style.padding = '8px';
+                    row.appendChild(td);
+                });
+                
+                tbody.appendChild(row);
+            });
+            table.appendChild(tbody);
+            printContent.appendChild(table);
+            
+            // Statistiques
+            const stats = document.createElement('div');
+            stats.style.marginTop = '20px';
+            stats.innerHTML = `
+                <h3>Statistiques</h3>
+                <p>Total des absences : ${records.filter(r => r.type === 'absence').length}</p>
+                <p>Total des retards : ${records.filter(r => r.type === 'retard').length}</p>
+                <p>Évaluations manquées : ${records.filter(r => r.type === 'evaluation').length}</p>
+            `;
+            printContent.appendChild(stats);
+            
+            // Lancer l'impression
+            window.print();
+        }
+
+        // Fonction pour générer le rapport mensuel
+        function generateMonthlyReport() {
+            const monthlyReport = document.getElementById('monthly-report');
+            const reportContent = document.getElementById('report-content');
+            
+            // Calculer le mois et l'année actuels
+            const now = new Date();
+            const month = now.toLocaleString('fr-FR', { month: 'long' });
+            const year = now.getFullYear();
+            
+            // Filtrer les enregistrements du mois courant
+            const currentMonthRecords = records.filter(record => {
+                const recordDate = new Date(record.date);
+                return recordDate.getMonth() === now.getMonth() && 
+                       recordDate.getFullYear() === now.getFullYear();
+            });
+            
+            // Générer le contenu du rapport
+            reportContent.innerHTML = `
+                <h4>Bilan pour ${month} ${year}</h4>
+                <div class="report-item">
+                    <strong>Nombre total d'absences :</strong> ${currentMonthRecords.filter(r => r.type === 'absence').length}
+                </div>
+                <div class="report-item">
+                    <strong>Nombre total de retards :</strong> ${currentMonthRecords.filter(r => r.type === 'retard').length}
+                </div>
+                <div class="report-item">
+                    <strong>Évaluations manquées :</strong> ${currentMonthRecords.filter(r => r.type === 'evaluation').length}
+                </div>
+                <div class="report-item">
+                    <strong>Cas de maladie déclarés :</strong> ${currentMonthRecords.filter(r => r.type === 'maladie').length}
+                </div>
+                <div class="report-item">
+                    <strong>Contacts avec les parents :</strong> ${currentMonthRecords.filter(r => r.type === 'contact').length}
+                </div>
+                
+                <h4 style="margin-top: 20px;">Détails par classe</h4>
+                ${generateClassReports(currentMonthRecords)}
+            `;
+            
+            // Afficher la section de rapport
+            monthlyReport.style.display = 'block';
+        }
+
+        // Fonction pour générer les rapports par classe
+        function generateClassReports(monthlyRecords) {
+            const classes = [...new Set(monthlyRecords.map(r => r.class))];
+            let html = '';
+            
+            classes.forEach(classe => {
+                const classRecords = monthlyRecords.filter(r => r.class === classe);
+                
+                html += `
+                    <div class="report-item">
+                        <strong>Classe ${classe} :</strong>
+                        <ul style="margin-top: 5px; margin-left: 20px;">
+                            <li>Absences : ${classRecords.filter(r => r.type === 'absence').length}</li>
+                            <li>Retards : ${classRecords.filter(r => r.type === 'retard').length}</li>
+                            <li>Évaluations manquées : ${classRecords.filter(r => r.type === 'evaluation').length}</li>
+                        </ul>
+                    </div>
+                `;
+            });
+            
+            return html;
+        }
+
+        // Fonction pour imprimer le rapport
+        function printReport() {
+            const printContent = document.getElementById('print-content');
+            printContent.innerHTML = document.getElementById('report-content').innerHTML;
+            
+            // Ajouter un titre
+            const title = document.createElement('h2');
+            title.textContent = 'Bilan Mensuel - Lycée Niamtougou';
+            printContent.insertBefore(title, printContent.firstChild);
+            
+            // Ajouter la date
+            const date = document.createElement('p');
+            date.textContent = 'Date : ' + new Date().toLocaleDateString('fr-FR');
+            printContent.insertBefore(date, printContent.firstChild.nextSibling);
+            
+            window.print();
+        }
+
+        // Fonction pour fermer le rapport
+        function closeReport() {
+            document.getElementById('monthly-report').style.display = 'none';
+        }
+
+        // Fonction utilitaire pour obtenir le libellé du type
+        function getTypeLabel(type) {
+            const labels = {
+                'absence': 'Absence',
+                'retard': 'Retard',
+                'evaluation': 'Évaluation manquée',
+                'maladie': 'Maladie',
+                'contact': 'Contact parent'
+            };
+            return labels[type] || type;
+        }
+
+        // Gestion de la soumission du formulaire
+        document.getElementById('record-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('record-id').value;
+            const type = document.getElementById('record-type').value;
+            const date = document.getElementById('modal-date').value;
+            const student = document.getElementById('modal-student').value;
+            const studentClass = document.getElementById('modal-class').value;
+            const reason = document.getElementById('modal-reason').value;
+            const time = type === 'retard' ? document.getElementById('modal-time').value : undefined;
+            const contactDetails = type === 'contact' ? document.getElementById('modal-contact-details').value : undefined;
+            const justified = type !== 'contact' ? document.getElementById('modal-justified').checked : undefined;
+            
+            if (id) {
+                // Modification d'un enregistrement existant
+                const index = records.findIndex(r => r.id === parseInt(id));
+                if (index !== -1) {
+                    records[index] = {
+                        ...records[index],
+                        date,
+                        student,
+                        class: studentClass,
+                        reason,
+                        time,
+                        contactDetails,
+                        justified
+                    };
+                }
+            } else {
+                // Création d'un nouvel enregistrement
+                const newRecord = {
+                    id: records.length > 0 ? Math.max(...records.map(r => r.id)) + 1 : 1,
+                    type,
+                    date,
+                    student,
+                    class: studentClass,
+                    reason,
+                    time,
+                    contactDetails,
+                    justified
+                };
+                records.push(newRecord);
+            }
+            
+            // Fermer le modal et actualiser l'affichage
+            closeModal();
+            displayRecords();
+            updateStats();
+        });
+
+        // Gestion de la soumission du formulaire de connexion
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            const supervisor = checkCredentials(username, password);
+            
+            if (supervisor) {
+                showMainContent(supervisor);
+            } else {
+                const errorElement = document.getElementById('error-message');
+                errorElement.textContent = "Identifiant ou mot de passe incorrect";
+                errorElement.style.display = 'block';
+                
+                setTimeout(() => {
+                    errorElement.style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        // Gestion de la soumission du formulaire d'inscription
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('supervisor-name').value;
+            const email = document.getElementById('supervisor-email').value;
+            const phone = document.getElementById('supervisor-phone').value;
+            const username = document.getElementById('register-username').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Validation
+            const errorElement = document.getElementById('register-error');
+            const successElement = document.getElementById('register-success');
+            
+            errorElement.style.display = 'none';
+            successElement.style.display = 'none';
+            
+            if (password !== confirmPassword) {
+                errorElement.textContent = "Les mots de passe ne correspondent pas";
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            // Vérifier si le compte existe déjà
+            if (supervisors.some(s => s.username === username)) {
+                errorElement.textContent = "Un compte existe déjà avec cet identifiant";
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            if (supervisors.some(s => s.email === email)) {
+                errorElement.textContent = "Un compte existe déjà avec cet email";
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            // Créer le nouveau compte
+            const newSupervisor = {
+                id: supervisors.length + 1,
+                name,
+                email,
+                phone,
+                username,
+                password
+            };
+            
+            supervisors.push(newSupervisor);
+            
+            // Afficher un message de succès
+            successElement.textContent = "Compte créé avec succès! Vous pouvez maintenant vous connecter.";
+            successElement.style.display = 'block';
+            
+            // Réinitialiser le formulaire
+            this.reset();
+            
+            // Revenir à la page de connexion après 3 secondes
+            setTimeout(() => {
+                showLoginSection();
+                successElement.style.display = 'none';
+            }, 3000);
+        });
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mettre la date du jour dans le filtre par défaut
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('filter-date').value = today;
+            
+            // Charger les données sauvegardées (simulation)
+            const savedRecords = localStorage.getItem('surveillant_records');
+            if (savedRecords) {
+                records = JSON.parse(savedRecords);
+            }
+            
+            const savedSupervisors = localStorage.getItem('surveillant_supervisors');
+            if (savedSupervisors) {
+                supervisors = JSON.parse(savedSupervisors);
+            }
+        });
+    </script>
+</body>
+</html>
