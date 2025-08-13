@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sciences Redigées - Soutien Scolaire</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .description {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .description h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #ffcc00;
+        }
+        
+        .description p {
+            line-height: 1.7;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .benefits {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #4dccff;
+            display: flex;
+            align-items: center;
+        }
+        
+        .benefit-card h3 i {
+            margin-right: 10px;
+            font-size: 1.6rem;
+        }
+        
+        .benefit-card ul {
+            padding-left: 20px;
+        }
+        
+        .benefit-card li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .cta-text {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #ffcc00;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .start-button {
+            display: inline-block;
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 18px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(255, 75, 43, 0.5);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .start-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 75, 43, 0.7);
+        }
+        
+        .start-button:active {
+            transform: translateY(2px);
+        }
+        
+        .start-button::after {
+            content: "→";
+            margin-left: 15px;
+            transition: transform 0.3s ease;
+        }
+        
+        .start-button:hover::after {
+            transform: translateX(5px);
+        }
+        
+        .testimonials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 50px;
+        }
+        
+        .testimonial {
+            flex: 1;
+            min-width: 250px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .testimonial p {
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .testimonial .author {
+            font-weight: bold;
+            text-align: right;
+            color: #ffcc00;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .cta-text {
+                font-size: 1.5rem;
+            }
+            
+            .start-button {
+                font-size: 1.5rem;
+                padding: 15px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SCIENCES REDIGÉES</h1>
+            <p class="subtitle">Soutien scolaire pour élèves en difficulté</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="description">
+                <h2>Votre réussite commence ici</h2>
+                <p>Chez Sciences Redigées, nous comprenons que chaque élève est unique et mérite une approche personnalisée pour réussir. Nos cours de soutien sont spécialement conçus pour les élèves rencontrant des difficultés scolaires en mathématiques, physique, chimie et sciences de la vie.</p>
+                <p>Nos enseignants expérimentés utilisent des méthodes pédagogiques adaptées pour aider les élèves à surmonter leurs difficultés, reprendre confiance en eux et développer une véritable compréhension des concepts scientifiques.</p>
+                <p>Que vous ayez besoin d'aide pour préparer un examen, comprendre un chapitre difficile ou simplement renforcer vos bases, notre équipe est là pour vous accompagner tout au long de votre parcours scolaire.</p>
+            </div>
+            
+            <div class="benefits">
+                <div class="benefit-card">
+                    <h3><i>✓</i> Avantages de nos cours</h3>
+                    <ul>
+                        <li>Enseignants qualifiés et expérimentés</li>
+                        <li>Approche pédagogique individualisée</li>
+                        <li>Suivi régulier des progrès</li>
+                        <li>Horaires flexibles adaptés à vos besoins</li>
+                        <li>Ressources pédagogiques exclusives</li>
+                        <li>Tarifs abordables et accessibles</li>
+                    </ul>
+                </div>
+                
+                <div class="benefit-card">
+                    <h3><i>✓</i> Pour qui ?</h3>
+                    <ul>
+                        <li>Élèves du collège au lycée</li>
+                        <li>Étudiants en difficulté dans les matières scientifiques</li>
+                        <li>Élèves ayant besoin d'un accompagnement régulier</li>
+                        <li>Ceux qui souhaitent améliorer leurs résultats</li>
+                        <li>Élèves préparant des examens ou concours</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <p class="cta-text">Prêt à transformer vos difficultés en réussite ?</p>
+            <a href="https://sciences-redigees.webnode.fr/services/" class="start-button">DÉBUT</a>
+        </div>
+        
+        <div class="testimonials">
+            <div class="testimonial">
+                <p>"Grâce à Sciences Redigées, j'ai enfin compris les maths ! Mon professeur a su m'expliquer les concepts de manière simple et claire. Mes notes ont augmenté de 3 points en seulement deux mois."</p>
+                <p class="author">- Marie, 15 ans</p>
+            </div>
+            
+            <div class="testimonial">
+                <p>"Les cours de physique étaient un vrai casse-tête pour moi. Avec l'aide personnalisée de mon tuteur, j'ai non seulement rattrapé mon retard, mais j'ai aussi développé un réel intérêt pour la matière."</p>
+                <p class="author">- Thomas, 17 ans</p>
+            </div>
+            
+            <div class="testimonial">
+                <p>"En tant que parent, je recommande vivement Sciences Redigées. Le suivi est sérieux, les progrès sont visibles et mon fils a retrouvé confiance en lui. Une véritable bouée de sauvetage !"</p>
+                <p class="author">- Mme Dubois</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Sciences Redigées - Soutien scolaire en sciences pour tous niveaux</p>
+            <p>Contact : contact@sciences-redigees.fr | Tél : 01 23 45 67 89</p>
+            <p>&copy; 2023 Sciences Redigées. Tous droits réservés.</p>
+        </footer>
+    </div>
+</body>
+</html>
